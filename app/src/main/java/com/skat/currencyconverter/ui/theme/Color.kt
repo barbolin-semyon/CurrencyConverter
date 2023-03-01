@@ -1,4 +1,4 @@
-package com.example.currencyconverter.ui.theme
+package com.skat.currencyconverter.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
