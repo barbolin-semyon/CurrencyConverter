@@ -9,7 +9,7 @@ object RetrofitClient {
     fun getRetrofitService(): Retrofit {
         if (retrofitService == null) {
             retrofitService = Retrofit.Builder()
-                .baseUrl("https://www.cbr-xml-daily.ru/")
+                .baseUrl("https://api.freecurrencyapi.com/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }
