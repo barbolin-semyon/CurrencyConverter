@@ -1,48 +1,55 @@
 package com.skat.currencyconverter.model.emptities
 
+import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import java.util.Calendar
 
+@Parcelize
 data class ResultApiModel(
-    @SerializedName("Date")
+    val date: Calendar = Calendar.getInstance(),
+
+    @ColumnInfo("data")
     val data: Valutes = Valutes(),
-)
+) : Parcelable
 
+@Parcelize
 data class Valutes(
-    val AUD: Valute = Valute(),
-    val BGN: Valute = Valute(),
-    val BRL: Valute = Valute(),
-    val CAD: Valute = Valute(),
-    val CHF: Valute = Valute(),
-    val CNY: Valute = Valute(),
-    val CZK: Valute = Valute(),
-    val DKK: Valute = Valute(),
-    val EUR: Valute = Valute(),
-    val GBP: Valute = Valute(),
-    val HKD: Valute = Valute(),
-    val HUF: Valute = Valute(),
-    val IDR: Valute = Valute(),
-    val ILS: Valute = Valute(),
-    val INR: Valute = Valute(),
-    val ISK: Valute = Valute(),
-    val JPY: Valute = Valute(),
-    val KRW: Valute = Valute(),
-    val MXN: Valute = Valute(),
-    val MYR: Valute = Valute(),
-    val NOK: Valute = Valute(),
-    val NZD: Valute = Valute(),
-    val PHP: Valute = Valute(),
-    val PLN: Valute = Valute(),
-    val RON: Valute = Valute(),
-    val RUB: Valute = Valute(),
-    val SEK: Valute = Valute(),
-    val SGD: Valute = Valute(),
-    val THB: Valute = Valute(),
-    val TRY: Valute = Valute(),
-    val USD: Valute = Valute(),
-    val ZAR: Valute = Valute(),
+    val AUD: Double = 0.0,
+    val BGN: Double = 0.0,
+    val BRL: Double = 0.0,
+    val CAD: Double = 0.0,
+    val CHF: Double = 0.0,
+    val CNY: Double = 0.0,
+    val CZK: Double = 0.0,
+    val DKK: Double = 0.0,
+    val EUR: Double = 0.0,
+    val GBP: Double = 0.0,
+    val HKD: Double = 0.0,
+    val HUF: Double = 0.0,
+    val IDR: Double = 0.0,
+    val ILS: Double = 0.0,
+    val INR: Double = 0.0,
+    val ISK: Double = 0.0,
+    val JPY: Double = 0.0,
+    val KRW: Double = 0.0,
+    val MXN: Double = 0.0,
+    val MYR: Double = 0.0,
+    val NOK: Double = 0.0,
+    val PLN: Double = 0.0,
+    val RON: Double = 0.0,
+    val RUB: Double = 0.0,
+    val SEK: Double = 0.0,
+    val SGD: Double = 0.0,
+    val THB: Double = 0.0,
+    val TRY: Double = 0.0,
+    val USD: Double = 0.0,
+    val ZAR: Double = 0.0,
 
-) {
-    fun getListValutes(): List<Valute> {
+) : Parcelable {
+    fun getListValutes(): List<Double> {
         return listOf(
             AUD,
             BGN,
@@ -65,8 +72,6 @@ data class Valutes(
             MXN,
             MYR,
             NOK,
-            NZD,
-            PHP,
             PLN,
             RON,
             RUB,

@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.skat.currencyconverter.model.emptities.ResultApiModel
-import com.skat.currencyconverter.model.emptities.Valute
 import com.skat.currencyconverter.model.networkService.RetrofitClient
 import com.skat.currencyconverter.model.networkService.RetrofitService
 import kotlinx.coroutines.delay
