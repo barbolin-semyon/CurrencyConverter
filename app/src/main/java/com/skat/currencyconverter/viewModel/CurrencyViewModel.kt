@@ -25,7 +25,7 @@ class CurrencyViewModel : ViewModel() {
 
     fun enableListCurrencies() = viewModelScope.launch {
         while (listener.value == true) {
-            delay(5000)
+            delay(10000000)
             db.getCurrencies().enqueue(object : Callback<ResultApiModel> {
                 override fun onResponse(
                     call: Call<ResultApiModel>,
