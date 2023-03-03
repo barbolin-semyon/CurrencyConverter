@@ -33,7 +33,7 @@ class CurrencyViewModel : ViewModel() {
                 ) {
                     val body = response.body()
                     body?.let {
-                        _currencies.value = it.Valutes.getListValutes()
+                        _currencies.value = it.data.getListValutes()
                     }
                 }
 
