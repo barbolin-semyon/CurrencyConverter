@@ -27,13 +27,19 @@ fun ListScreen(navController: NavController, viewModel: CurrencyViewModel) {
     val currencies by viewModel.currencies.observeAsState()
     val context = LocalContext.current
 
+    LaunchedEffect(key1 = Unit, block = {
+        viewModel.changeBaseCurrency("USD")
+    })
+
     currencies?.let {
         if (it.isNotEmpty()) {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 val keys = it.keys.toList()
-                var baseCurrency by remember { mutableStateOf(keys[0]) }
+                val baseCurrency by viewModel.baseCurrency.observeAsState()
 
-                Header(keys, baseCurrency) { baseCurrency = it }
+                baseCurrency?.let { bCurrency ->
+                    Header(keys, bCurrency) { viewModel.changeBaseCurrency(it) }
+                }
 
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     items(keys) { code ->

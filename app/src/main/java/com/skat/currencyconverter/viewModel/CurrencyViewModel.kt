@@ -19,27 +19,41 @@ class CurrencyViewModel : ViewModel() {
     val currencies: LiveData<HashMap<String, Float>>
         get() = _currencies
 
+    private val _baseCurrency = MutableLiveData("USD")
+    val baseCurrency: LiveData<String>
+        get() = _baseCurrency
+
     private val listener = MutableLiveData(true)
     private val db = RetrofitClient.getRetrofitService().create(RetrofitService::class.java)
 
+    fun changeBaseCurrency(newValue: String) {
+        _baseCurrency.value = newValue
+    }
+
     fun enableListCurrencies() = viewModelScope.launch {
         while (listener.value == true) {
-            db.getCurrentCurrencies("uUxcajz0zleo0rVuAOTvCddsSWRMJRpLQvVi4wba").enqueue(object : Callback<ResultApiModel> {
-                override fun onResponse(
-                    call: Call<ResultApiModel>,
-                    response: Response<ResultApiModel>
-                ) {
-                    val body = response.body()
-                    body?.let {
-                        _currencies.value = it.data
-                    }
-                }
+            if (_baseCurrency.value != null) {
+                db.getCurrentCurrencies(
+                    "uUxcajz0zleo0rVuAOTvCddsSWRMJRpLQvVi4wba",
+                    _baseCurrency.value!!
+                )
+                    .enqueue(object : Callback<ResultApiModel> {
+                        override fun onResponse(
+                            call: Call<ResultApiModel>,
+                            response: Response<ResultApiModel>
+                        ) {
+                            val body = response.body()
+                            body?.let {
+                                _currencies.value = it.data
+                            }
+                        }
 
-                override fun onFailure(call: Call<ResultApiModel>, t: Throwable) {
-                    Log.i("QWE", "")
-                }
+                        override fun onFailure(call: Call<ResultApiModel>, t: Throwable) {
+                            Log.i("QWE", "")
+                        }
 
-            })
+                    })
+            }
             delay(100000)
         }
     }
