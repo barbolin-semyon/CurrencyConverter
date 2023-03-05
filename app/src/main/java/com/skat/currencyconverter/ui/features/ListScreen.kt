@@ -1,28 +1,25 @@
 package com.skat.currencyconverter.ui.features
 
 import android.content.Context.MODE_PRIVATE
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.skat.currencyconverter.model.emptities.currenciesName
+import com.skat.currencyconverter.ui.component.Spinner
 import com.skat.currencyconverter.ui.theme.DarkGray
-import com.skat.currencyconverter.ui.theme.Green
 import com.skat.currencyconverter.viewModel.CurrencyViewModel
 
 @Composable
@@ -31,16 +28,56 @@ fun ListScreen(navController: NavController, viewModel: CurrencyViewModel) {
     val context = LocalContext.current
 
     currencies?.let {
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            items(it.keys.toList()) { code ->
-                val preferences = context.getSharedPreferences("currencies", MODE_PRIVATE)
-                val oldValue = preferences.getFloat(code, 0f)
+        if (it.isNotEmpty()) {
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                val keys = it.keys.toList()
+                var baseCurrency by remember { mutableStateOf(keys[0]) }
 
-                val newValue = currencies!![code]!!
-                if (newValue != oldValue) preferences.edit().putFloat(code, newValue)
+                Header(keys, baseCurrency) { baseCurrency = it }
 
-                ItemCurrency(code = code, newValue, oldValue)
+                LazyColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                    items(keys) { code ->
+                        val preferences = context.getSharedPreferences("currencies", MODE_PRIVATE)
+                        val oldValue = preferences.getFloat(code, 0f)
+
+                        val newValue = currencies!![code]!!
+                        if (newValue != oldValue) preferences.edit().putFloat(code, newValue)
+
+                        ItemCurrency(code = code, newValue, oldValue)
+                    }
+                }
             }
+        }
+    }
+}
+
+@Composable
+fun Header(keys: List<String>, baseCurrency: String, changeCurrency: (newValuew: String) -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth(),
+        backgroundColor = DarkGray,
+        shape = RoundedCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp),
+        elevation = 16.dp
+    ) {
+        Column(
+            Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Базовая валюта",
+                style = MaterialTheme.typography.h4,
+                color = Color.White,
+                textAlign = TextAlign.Center
+            )
+
+            Spinner(
+                items = keys,
+                hint = baseCurrency,
+                tint = Color.White,
+                padding = PaddingValues(8.dp),
+                onClick = { changeCurrency(it) })
+
         }
     }
 }
@@ -81,9 +118,9 @@ fun ItemCurrency(code: String, value: Float, oldValue: Float) {
 
                     if (oldValue != 0f && oldValue != value) {
                         if (oldValue > value) {
-                            Text("+${oldValue-value}", color = Color.Green)
-                        }else {
-                            Text("${oldValue-value}", color = Color.Red)
+                            Text("+${oldValue - value}", color = Color.Green)
+                        } else {
+                            Text("${oldValue - value}", color = Color.Red)
                         }
                     }
                 }
