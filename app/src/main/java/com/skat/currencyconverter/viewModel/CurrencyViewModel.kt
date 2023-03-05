@@ -15,24 +15,23 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class CurrencyViewModel : ViewModel() {
-    private val _currencies = MutableLiveData<List<Valute>>(emptyList())
+  /*  private val _currencies = MutableLiveData<List<Valute>>(emptyList())
     val currencies: LiveData<List<Valute>>
-        get() = _currencies
+        get() = _currencies*/
 
     private val listener = MutableLiveData(true)
     private val db = RetrofitClient.getRetrofitService().create(RetrofitService::class.java)
 
     fun enableListCurrencies() = viewModelScope.launch {
         while (listener.value == true) {
-            delay(10000000)
-            db.getCurrencies().enqueue(object : Callback<ResultApiModel> {
+            db.getCurrentCurrencies("uUxcajz0zleo0rVuAOTvCddsSWRMJRpLQvVi4wba").enqueue(object : Callback<ResultApiModel> {
                 override fun onResponse(
                     call: Call<ResultApiModel>,
                     response: Response<ResultApiModel>
                 ) {
                     val body = response.body()
                     body?.let {
-                        _currencies.value = it.data.getListValutes()
+                        Log.i("QWE", it.data.get("AED").toString())
                     }
                 }
 
@@ -41,6 +40,7 @@ class CurrencyViewModel : ViewModel() {
                 }
 
             })
+            delay(100000)
         }
     }
 }

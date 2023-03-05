@@ -7,5 +7,5 @@ import retrofit2.http.Header
 
 interface RetrofitService {
     @GET("latest")
-    fun getCurrencies(@Header("apikey") apikey: String): Call<ResultApiModel>
+    fun getCurrentCurrencies(@Header("apikey") apikey: String): Call<ResultApiModel>
 }
