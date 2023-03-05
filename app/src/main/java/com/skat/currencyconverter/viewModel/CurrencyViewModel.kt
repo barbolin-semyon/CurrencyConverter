@@ -15,9 +15,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class CurrencyViewModel : ViewModel() {
-  /*  private val _currencies = MutableLiveData<List<Valute>>(emptyList())
-    val currencies: LiveData<List<Valute>>
-        get() = _currencies*/
+    private val _currencies = MutableLiveData<HashMap<String, Double>>(hashMapOf())
+    val currencies: LiveData<HashMap<String, Double>>
+        get() = _currencies
 
     private val listener = MutableLiveData(true)
     private val db = RetrofitClient.getRetrofitService().create(RetrofitService::class.java)
@@ -31,7 +31,7 @@ class CurrencyViewModel : ViewModel() {
                 ) {
                     val body = response.body()
                     body?.let {
-                        Log.i("QWE", it.data.get("AED").toString())
+                        _currencies.value = it.data
                     }
                 }
 
