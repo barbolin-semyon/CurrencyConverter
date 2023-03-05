@@ -15,8 +15,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class CurrencyViewModel : ViewModel() {
-    private val _currencies = MutableLiveData<HashMap<String, Double>>(hashMapOf())
-    val currencies: LiveData<HashMap<String, Double>>
+    private val _currencies = MutableLiveData<HashMap<String, Float>>(hashMapOf())
+    val currencies: LiveData<HashMap<String, Float>>
         get() = _currencies
 
     private val listener = MutableLiveData(true)

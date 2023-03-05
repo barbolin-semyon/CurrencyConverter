@@ -6,7 +6,7 @@ import java.util.Calendar
 
 @Parcelize
 data class ResultApiModel(
-    val data: HashMap<String, Double> = hashMapOf(),
+    val data: HashMap<String, Float> = hashMapOf(),
 ) : Parcelable
 
 val currenciesName = hashMapOf<String, String> (
